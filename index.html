@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <title>AI App Development Practice Tests</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;600&display=swap">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%230f8a8a%22/%3E%3Ccircle cx=%2210%22 cy=%2211%22 r=%223%22 fill=%22%23ffffff%22/%3E%3Ccircle cx=%2222%22 cy=%2221%22 r=%223%22 fill=%22%23ffffff%22/%3E%3Cpath d=%22M12.6 12.8 19.4 19.2%22 stroke=%22%23ffffff%22 stroke-width=%222.4%22 stroke-linecap=%22round%22/%3E%3C/svg%3E">
+</head>
+<body data-page="home">
+  <header class="masthead"><div class="wrap">
+    <p class="crumb">CIS-305 · AI Application Development</p>
+    <h1>Practice Tests</h1>
+    <p class="dek">Five 10-question multiple-choice tests on chunking, retrieval scores, and building the flow in Langflow.</p>
+    <ul class="rules"><li>Pencil &amp; paper</li><li>No devices</li><li>No notes</li><li>Like the real exam</li></ul>
+  </div></header>
+
+  <main><div class="wrap">
+    <div class="note">
+      <p><strong>How it works.</strong> Work each question on scratch paper, pick an answer, and submit when you're done.
+      You'll get your score, and every question you missed will be marked — but <em>not</em> the right answer.
+      Go back, find your mistake, and retry the ones you missed.</p>
+      <p>Your answers are saved in this browser only. Nobody else sees them, including your instructor.</p>
+    </div>
+
+    <h2>The tests</h2>
+    <ol class="test-list" id="tests"></ol>
+
+    <h2>What's covered</h2>
+    <p>Every test has two questions from each of these:</p>
+    <ul class="topics">
+      <li><a href="https://bendazz.github.io/intro-to-ai-applications/#chunking-practice">Chunking by hand</a></li>
+      <li><a href="https://bendazz.github.io/intro-to-ai-applications/#chunking-edge-practice">Chunking edge cases</a></li>
+      <li><a href="https://bendazz.github.io/intro-to-ai-applications/#retrieval-practice">Precision &amp; recall in search</a></li>
+      <li><a href="https://bendazz.github.io/intro-to-ai-applications/#rag-flow-retrieval">Building the flow: load &amp; store</a></li>
+      <li><a href="https://bendazz.github.io/intro-to-ai-applications/#rag-flow-generation">Building the flow: the RAG app</a></li>
+    </ul>
+
+    <h2>Worked solutions</h2>
+    <p>Full solutions for every question, including why each wrong answer is wrong.
+    <strong>Take the test first.</strong> Reading an answer isn't the same skill as producing one with a pencil.</p>
+    <div class="sol-links" id="sol-links"></div>
+  </div></main>
+  <footer><div class="wrap">CIS-305 · AI Application Development · Mercyhurst University · Fall 2026 ·
+    Companion to <a href="https://bendazz.github.io/intro-to-ai-applications">the online textbook</a></div></footer>
+  <script src="questions.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
