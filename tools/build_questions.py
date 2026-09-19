@@ -123,16 +123,16 @@ q(1, LOAD, "B",
   "<p>The Embedding Model connects separately, into <em>Embedding</em>, because Chroma needs a way to turn both the chunks and later the question into points.</p>")
 
 q(1, LOAD, "D",
-  "<p>You open the Embedding Model component and look through the Provider list. Anthropic is not there. What is going on?</p>",
-  [("Anthropic makes chat models but no embedding model, so use Google Generative AI with your Gemini key", None),
-   ("Your Anthropic key was never saved, so the provider is hidden",
-    "A missing key gives an error when you run the component; it does not remove a provider from the list. Anthropic offers no embedding model at all."),
-   ("Anthropic embeddings are paid, and Langflow lists only free providers",
-    "Langflow does not filter providers by price — your Anthropic chat models are paid and they still appear in the Language Model component."),
-   ("You have to enable it first under Settings → Model Providers → Anthropic",
-    "Enabling matters for models a provider actually has. There is nothing to enable under Embedding Models for Anthropic.")],
-  "<p>Embedding and chat are different jobs. Anthropic sells chat models only, so it never appears in the Embedding Model provider list.</p>"
-  "<p>Use <strong>Google Generative AI</strong> with your Gemini key, and make sure a model under <em>Embedding Models</em> is enabled in Settings → Model Providers.</p>")
+  "<p>You need an embedding model for the store, and you look for Anthropic. It is not an option. What is going on?</p>",
+  [("Anthropic makes chat models but no embedding model — use the OpenAI embedder instead", None),
+   ("Your Anthropic key was never saved, so the option is hidden",
+    "A missing key gives an error when you run the component; it does not hide the provider. Anthropic offers no embedding model at all."),
+   ("Anthropic's embedder only works with Anthropic's chat models, so it is hidden until you add one",
+    "Embedding and chat are separate jobs, and nothing pairs them. You can embed with one company's model and write answers with another's."),
+   ("Embedding happens inside Chroma, so no embedding model is needed at all",
+    "Chroma stores points and compares them, but something has to turn the text into points first. That is the embedder's job.")],
+  "<p>Embedding and chat are different jobs, and Anthropic sells chat models only.</p>"
+  "<p>Use the <strong>OpenAI embedder</strong> with your OpenAI key. The chunks and the questions then land in the same space, which is what makes the search work.</p>")
 
 q(2, LOAD, "A",
   "<p>Your flow is built and the wires look right, but the Playground returns nothing at all — an empty result, every time. What is the most likely cause?</p>",
@@ -163,8 +163,8 @@ q(3, LOAD, "B",
   [("Click <em>Run component</em> on Chroma DB again to reload the document", None),
    ("Nothing — the Playground reads the file again with every question",
     "The Playground only searches what is already in the store. Reading and chunking the file happen on the loading side of the flow."),
-   ("Click <em>Check &amp; Save</em> on Split Text",
-    "Check &amp; Save applies to a Prompt Template, where it makes the variable ports appear. It does not reload a document."),
+   ("Run the Split Text component, since that is where the document gets read",
+    "Running Split Text produces fresh chunks but leaves them sitting there. Only running Chroma DB puts them into the store."),
    ("Restart Langflow so it picks up the new file",
     "Restarting clears an in-memory store and still does not load anything. You would have to run the component anyway.")],
   "<p>Loading is a step you trigger, not something that happens continuously. Edit the document, then <strong>Run component</strong> on Chroma DB to load it again.</p>")
@@ -245,15 +245,16 @@ q(1, RAG, "C",
   "<p>Set the Parser's mode to <em>Parser</em> with the template <code>{text}</code> and it hands over just the chunk text, one per line.</p>")
 
 q(1, RAG, "A",
-  "<p>You typed <code>{context}</code> into the Prompt Template, but there is no <em>context</em> port to connect the Parser to. What is missing?</p>",
-  [("You have not clicked <em>Check &amp; Save</em> on the Prompt Template", None),
-   ("The Parser has to be connected first, and then the port appears",
-    "The port has to exist before anything can be connected to it. The order is: type the variable, save, then wire."),
-   ("The variable has to be named <code>{input}</code>",
-    "Any name works. The name you type becomes the name of the port."),
-   ("A Language Model must be chosen before variable ports appear",
-    "The Prompt Template's ports do not depend on which model you use.")],
-  "<p>Ports for variables appear only after the template is saved. Type <code>{context}</code>, click <strong>Check &amp; Save</strong>, and the port shows up.</p>")
+  "<p>Your prompt says: “Answer using only the context below. Context: <code>{context}</code>”. When a student asks a question, what has been put in that blank?</p>",
+  [("The text of the chunks retrieved for that question", None),
+   ("The whole document",
+    "That is what you did when you chatted with a document by pasting it into the prompt. Retrieval exists so the model reads a page or two instead."),
+   ("Every chunk in the store",
+    "Only the top few come back — as many as Number of Results asks for."),
+   ("The student's question",
+    "The question reaches the model on its own wire from Chat Input. The blank is for the material the answer has to come from.")],
+  "<p>Each question searches the store, and the chunks that come back are turned into plain text and dropped into the blank.</p>"
+  "<p>So the prompt is rebuilt for every question — same instruction, different context.</p>")
 
 q(2, RAG, "D",
   "<p>In the finished RAG app, where do the Prompt Template's output and the Chat Input connect on the Language Model?</p>",
