@@ -17,9 +17,9 @@ window.PRACTICE_TESTS = [
      "<em>Search Query</em> is the reading side — it takes the question you type in the Playground. Sending chunks there searches the store instead of filling it.",
      null,
      "That skips the chunker. The whole document would go in as one piece, and every search would return all of it.",
-     "The Embedding Model supplies the model that turns text into points; it connects to Chroma's <em>Embedding</em> input, and it carries no document text."
+     "The Embedding Model supplies the model that turns text into vectors; it connects to Chroma's <em>Embedding</em> input, and it carries no document text."
     ],
-    "solution": "<p>Loading runs Read File → Split Text → Chroma DB. The chunks are the data being stored, so they go into <strong>Ingest Data</strong>.</p><p>The Embedding Model connects separately, into <em>Embedding</em>, because Chroma needs a way to turn both the chunks and later the question into points.</p>"
+    "solution": "<p>Loading runs Read File → Split Text → Chroma DB. The chunks are the data being stored, so they go into <strong>Ingest Data</strong>.</p><p>The Embedding Model connects separately, into <em>Embedding</em>, because Chroma needs a way to turn both the chunks and later the question into vectors.</p>"
    },
    {
     "topic": "Building the flow: load & store",
@@ -34,7 +34,7 @@ window.PRACTICE_TESTS = [
     "why": [
      "A missing key gives an error when you run the component; it does not hide the provider. Anthropic offers no embedding model at all.",
      "Embedding and chat are separate jobs, and nothing pairs them. You can embed with one company's model and write answers with another's.",
-     "Chroma stores points and compares them, but something has to turn the text into points first. That is the embedder's job.",
+     "Chroma stores vectors and compares them, but something has to turn the text into vectors first. That is the embedder's job.",
      null
     ],
     "solution": "<p>Embedding and chat are different jobs, and Anthropic sells chat models only.</p><p>Use the <strong>OpenAI embedder</strong> with your OpenAI key. The chunks and the questions then land in the same space, which is what makes the search work.</p>"
@@ -244,7 +244,7 @@ window.PRACTICE_TESTS = [
      "Langflow does not fill the field in for you. Blank means nothing is written to disk.",
      "The field is optional. The flow runs fine — the store just is not saved.",
      null,
-     "The store keeps the text and the points together. Either both are saved or neither is."
+     "The store keeps the text and the vectors together. Either both are saved or neither is."
     ],
     "solution": "<p>Leave Persist Directory empty and the store is in memory only: convenient for class, gone when the session ends.</p><p>Fill it in and the same chunks are still there next time, with no reloading.</p>"
    },
@@ -313,7 +313,7 @@ window.PRACTICE_TESTS = [
     "prompt": "<p>How long is chunk 2?</p>",
     "choices": [
      "60 — Split Text cuts it off at the Chunk Size",
-     "131 — the whole second paragraph, 71 characters over the Chunk Size",
+     "133 — the whole second paragraph, 73 characters over the Chunk Size",
      "50 — the Chunk Size minus the overlap",
      "There is no chunk 2 — the paragraph is dropped for being too long"
     ],
@@ -324,9 +324,9 @@ window.PRACTICE_TESTS = [
      "Overlap is text carried forward from the previous chunk, not an amount subtracted from the chunk.",
      "Nothing is ever discarded. An oversized atom comes out whole."
     ],
-    "solution": "<p>With a blank line as the separator there are two atoms: 22 and 131.</p><p>Buffer 22. The second atom: 22 + 131 + 2 = 155, over 60, so <strong>emit chunk 1 = 22</strong>. The buffer empties, then takes the big atom.</p><p>End of text: <strong>emit chunk 2 = 131</strong>. Chunk Size is a target, not a cap — an atom bigger than the Chunk Size comes out in one piece.</p>",
+    "solution": "<p>With a blank line as the separator there are two atoms: 23 and 133.</p><p>Buffer 23. The second atom: 23 + 133 + 2 = 158, over 60, so <strong>emit chunk 1 = 23</strong>. The buffer empties, then takes the big atom.</p><p>End of text: <strong>emit chunk 2 = 133</strong>. Chunk Size is a target, not a cap — an atom bigger than the Chunk Size comes out in one piece.</p>",
     "doc": {
-     "text": "Embeddings are points.\n\nThe store holds chunks and their points, and a search finds the points nearest to the question before any model ever sees the text.",
+     "text": "Embeddings are vectors.\n\nThe store holds chunks and their vectors, and a search finds the vectors nearest to the question before any model ever sees the text.",
      "sep": "\n\n",
      "size": 60,
      "overlap": 10
@@ -630,33 +630,33 @@ window.PRACTICE_TESTS = [
     "topic": "Building the flow: load & store",
     "prompt": "<p>What is the Embedding Model component's job in the flow?</p>",
     "choices": [
-     "It turns only the question into a point; the chunks are stored as plain text",
-     "It turns only the chunks into points; the question is matched by keyword",
-     "It supplies the model that turns text into points — used on the chunks when loading and on the question when searching",
+     "It turns only the question into a vector; the chunks are stored as plain text",
+     "It turns only the chunks into vectors; the question is matched by keyword",
+     "It supplies the model that turns text into vectors — used on the chunks when loading and on the question when searching",
      "It writes the answer from the chunks that come back"
     ],
     "answer": 2,
     "why": [
-     "Then there would be nothing to compare the question against. The chunks are turned into points at load time — that is what makes them searchable.",
-     "Both sides have to be points, or there is no way to measure the distance between them.",
+     "Then there would be nothing to compare the question against. The chunks are turned into vectors at load time — that is what makes them searchable.",
+     "Both sides have to be vectors, or there is no way to measure the distance between them.",
      null,
      "That is the Language Model's job, and it is not in the flow at all until you add generation."
     ],
-    "solution": "<p>One Embedding Model connects to Chroma's <em>Embedding</em> input and serves both sides: every chunk becomes a point when you load, and every question becomes a point when you search.</p><p>Retrieval is then just finding the stored points nearest to the question's point.</p>"
+    "solution": "<p>One Embedding Model connects to Chroma's <em>Embedding</em> input and serves both sides: every chunk becomes a vector when you load, and every question becomes a vector when you search.</p><p>Retrieval is then just finding the stored vectors nearest to the question's vector.</p>"
    },
    {
     "topic": "Building the flow: load & store",
     "prompt": "<p>You load your chunks with one embedding model. Later you switch the Embedding Model component to a different model and search without reloading. What happens?</p>",
     "choices": [
-     "The results are junk: the question's point is in a different space than the stored points",
-     "Chroma converts the stored points to the new model automatically",
+     "The results are junk: the question's vector is in a different space than the stored vectors",
+     "Chroma converts the stored vectors to the new model automatically",
      "Langflow stops with an error saying the models do not match",
      "It works, but every search is slower"
     ],
     "answer": 0,
     "why": [
      null,
-     "There is no conversion. A point only means something to the model that produced it.",
+     "There is no conversion. A vector only means something to the model that produced it.",
      "Nothing complains. The numbers still have the right shape, so you get confident-looking nonsense — the worst kind of bug.",
      "Speed is not the problem. The comparison itself is meaningless."
     ],
@@ -839,7 +839,7 @@ window.PRACTICE_TESTS = [
      "Retrieved chunks leave the store through the <em>Search Results</em> output; nothing comes back in.",
      "The Embedding Model connects to the <em>Embedding</em> input. It supplies the model, not the text being looked up."
     ],
-    "solution": "<p>Chat Input carries the question into <strong>Search Query</strong>. Chroma turns that question into a point and returns the nearest stored chunks through <em>Search Results</em>.</p>"
+    "solution": "<p>Chat Input carries the question into <strong>Search Query</strong>. Chroma turns that question into a vector and returns the nearest stored chunks through <em>Search Results</em>.</p>"
    },
    {
     "topic": "Building the flow: load & store",
@@ -853,7 +853,7 @@ window.PRACTICE_TESTS = [
     "answer": 3,
     "why": [
      "Embedding is a model call like any other. It is cheap, not free — and reloading a big document over and over does add up.",
-     "Searching compares points that already exist. The size of the store is not what you are billed for.",
+     "Searching compares vectors that already exist. The size of the store is not what you are billed for.",
      "It is the other way around: embedding models are far cheaper per token than chat models.",
      null
     ],
@@ -871,7 +871,7 @@ window.PRACTICE_TESTS = [
     "answer": 2,
     "why": [
      "Still needed. Every question still has to search the store.",
-     "Still needed. Without it the question cannot be turned into a point to search with.",
+     "Still needed. Without it the question cannot be turned into a vector to search with.",
      null,
      "Still needed for loading. Generation changes what happens to the results, not how the document gets in."
     ],
