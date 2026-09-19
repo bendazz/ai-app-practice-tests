@@ -292,10 +292,10 @@ q(3, RAG, "A",
   "<p>Say it plainly: answer using <strong>only</strong> the context below, and if the answer is not there, say you don't know.</p>")
 
 q(3, RAG, "C",
-  "<p>After the rewire, what does Chat Output display?</p>",
+  "<p>Your finished app is wired Chroma DB → Parser → Prompt Template → Language Model → Chat Output, with Chat Input feeding both Chroma DB and the Language Model. What does Chat Output display?</p>",
   [("The answer the Language Model wrote", None),
    ("The retrieved chunks, exactly as they came out of the store",
-    "That was the part 1 flow, before generation was added. The wire from Search Results to Chat Output is removed during the rewire."),
+    "That is what you see in a search-only flow, where Chroma's Search Results run straight to Chat Output. Here the results go to the Parser instead."),
    ("The filled-in prompt, so you can see what the model was sent",
     "The prompt goes to the model, not to the screen. To see it, use Inspect output on the Prompt Template."),
    ("The chunk text from the Parser",
@@ -327,7 +327,7 @@ q(4, RAG, "D",
   "<p>That is the cost argument for RAG: no matter how big the document is, the model reads a page or two per question.</p>")
 
 q(5, RAG, "C",
-  "<p>You are upgrading the part 1 flow into a full RAG app. Which existing wire has to be <strong>removed</strong>?</p>",
+  "<p>Your flow searches the store and shows the retrieved chunks in the Playground. You now want a model to write the answer instead. Which existing wire has to be <strong>removed</strong>?</p>",
   [("Chroma DB's <em>Search Results</em> → Chat Output", None),
    ("Chat Input → Chroma DB's <em>Search Query</em>",
     "Still needed. Every question still has to search the store."),

@@ -479,7 +479,7 @@ window.PRACTICE_TESTS = [
    },
    {
     "topic": "Building the flow: the RAG app",
-    "prompt": "<p>After the rewire, what does Chat Output display?</p>",
+    "prompt": "<p>Your finished app is wired Chroma DB → Parser → Prompt Template → Language Model → Chat Output, with Chat Input feeding both Chroma DB and the Language Model. What does Chat Output display?</p>",
     "choices": [
      "The retrieved chunks, exactly as they came out of the store",
      "The filled-in prompt, so you can see what the model was sent",
@@ -488,7 +488,7 @@ window.PRACTICE_TESTS = [
     ],
     "answer": 2,
     "why": [
-     "That was the part 1 flow, before generation was added. The wire from Search Results to Chat Output is removed during the rewire.",
+     "That is what you see in a search-only flow, where Chroma's Search Results run straight to Chat Output. Here the results go to the Parser instead.",
      "The prompt goes to the model, not to the screen. To see it, use Inspect output on the Prompt Template.",
      null,
      "The Parser feeds the prompt. Its text reaches you only after the model has used it to write an answer."
@@ -861,7 +861,7 @@ window.PRACTICE_TESTS = [
    },
    {
     "topic": "Building the flow: the RAG app",
-    "prompt": "<p>You are upgrading the part 1 flow into a full RAG app. Which existing wire has to be <strong>removed</strong>?</p>",
+    "prompt": "<p>Your flow searches the store and shows the retrieved chunks in the Playground. You now want a model to write the answer instead. Which existing wire has to be <strong>removed</strong>?</p>",
     "choices": [
      "Chat Input → Chroma DB's <em>Search Query</em>",
      "The Embedding Model → Chroma DB's <em>Embedding</em>",
